@@ -1,0 +1,9 @@
+#eclipse的项目下
+target
+.settings
+.project
+.springBeans
+.classpath
+mbg.xml
+db.properties
+error*

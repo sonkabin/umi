@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+  <title>umi</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/plugin/signin.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <form class="form-signin" id="login-form">
+    <h2 class="form-signin-heading">账号登录</h2>
+    <label for="inputUsername" class="sr-only">用户名</label>
+    <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="text" name="username">
+    <label for="inputPassword" class="sr-only">密码</label>
+    <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="password">
+    <div class="checkbox">
+      <label>
+            <input value="remember-me" type="checkbox"> 记住我
+          </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="login-btn">登录</button>
+  </form>
+
+  <script src="./js/jquery.js"></script>
+  <script src="./js/plugin/myplugin.js"></script>
+  <script type="text/javascript">
+    $('#login-btn').click(function() {
+      $.ajax({
+        url : baseUrl + '/login',
+        method : 'POST',
+        data : $("#login-form").serialize(),
+        success : function(result){
+          if(result.code == 200){
+            alert(result.msg)
+            return;
+          }
+          //成功进行跳转
+					window.location.href = "home.html";
+        }
+      })
+    })
+  </script>
+
+</body>
+
+</html>
