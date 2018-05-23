@@ -1,22 +1,19 @@
 package com.sjm.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sjm.dao.UserMapper;
 import com.sjm.domain.User;
 import com.sjm.domain.UserExample;
 import com.sjm.service.UserService;
 import com.sjm.util.AuthenticationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserMapper userMapper;
@@ -28,8 +25,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return userMapper.selectByExample(null);
+    public List<User> getUsers(String username,String email) {
+    	UserExample example = new UserExample();
+    	example.createCriteria().andUsernameLike("%" + username + "%").andEmailLike("%" + email + "%");
+        return userMapper.selectByExample(example);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        userMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
         example.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
         List<User> users = userMapper.selectByExample(example);
         if(users == null || users.size() == 0){
-            throw new AuthenticationException("用户名或密码错误");
+        	throw new AuthenticationException("用户名或密码错误");
         }
         User user = users.get(0);
         if(user.getUserId() != 1){
@@ -56,4 +55,19 @@ public class UserServiceImpl implements UserService {
         }
         return user.getUserId();
     }
+
+	@Override
+	public void deleteUser(Integer id) {
+		userMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public void updatePwd(String oldPwd, String newPwd, int userId) {
+		User user = userMapper.selectByPrimaryKey(userId);
+		if(user.getPassword() != oldPwd) {
+			throw new AuthenticationException("密码错误");
+		}
+		user.setPassword(newPwd);
+		userMapper.updateByPrimaryKeySelective(user);
+	}
 }

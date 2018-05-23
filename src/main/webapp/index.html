@@ -45,7 +45,7 @@
         data : $("#login-form").serialize(),
         success : function(result){
           if(result.code == 200){
-            alert(result.msg)
+            alert(result.extend.info)
             return;
           }
           //成功进行跳转

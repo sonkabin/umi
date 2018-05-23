@@ -25,17 +25,18 @@ public class UserController {
         return Message.success();
     }
 
-    @RequestMapping(value="/users",method = RequestMethod.POST)
+    @RequestMapping(value="/user",method = RequestMethod.POST)
     public Message saveUser(User user){
         userService.saveUser(user);
         return Message.success();
     }
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public Message getUsers(@RequestParam(value = "pn",defaultValue = "1")Integer pn){
+    public Message getUsers(@RequestParam(value = "pn",defaultValue = "1")Integer pn,@RequestParam(value="username",defaultValue="")String username
+    		,@RequestParam(value="email",defaultValue="")String email){
         PageHelper.startPage(pn,5);
-        List<User> users = userService.getUsers();
-        PageInfo<?> pageInfo = new PageInfo<>(users);
+        List<User> users = userService.getUsers(username,email);
+        PageInfo<?> pageInfo = new PageInfo<>(users,5);
         return Message.success().add("pageInfo",pageInfo);
     }
 
@@ -46,7 +47,7 @@ public class UserController {
         return  Message.success().add("user",user);
     }
 
-    @RequestMapping(value = "/user/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{userId}",method = RequestMethod.PUT)
     public Message updateUser(User user){
         userService.updateUser(user);
         return Message.success();
@@ -54,7 +55,14 @@ public class UserController {
 
     @RequestMapping(value = "/user/{id}",method = RequestMethod.DELETE)
     public Message deleteUser(@PathVariable("id")Integer id){
-
+    	userService.deleteUser(id);
+        return Message.success();
+    }
+    
+    @RequestMapping(value = "/user",method = RequestMethod.PUT)
+    public Message updateUser(@RequestParam("oldPwd")String oldPwd , @RequestParam("newPwd")String newPwd , HttpSession session){
+    	int userId = (int)session.getAttribute("userId");
+        userService.updatePwd(oldPwd,newPwd,userId);
         return Message.success();
     }
 

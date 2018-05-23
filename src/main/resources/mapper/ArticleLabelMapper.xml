@@ -178,4 +178,13 @@
       label_id = #{labelId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertArticleAndTags">
+  	insert into article_label(article_id,label_id)
+  	values
+  	<foreach collection="list" separator="," item="item">
+  		(#{articleId},#{item})
+  	</foreach>
+  </insert>
+  
 </mapper>

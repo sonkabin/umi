@@ -27,4 +27,7 @@ public interface ArticleLabelMapper {
     int updateByPrimaryKeySelective(ArticleLabel record);
 
     int updateByPrimaryKey(ArticleLabel record);
+
+    //new 
+	void insertArticleAndTags(int articleId, List<String> list);
 }

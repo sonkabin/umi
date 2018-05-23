@@ -94,3 +94,17 @@ function build_nav(node , info) {
   ul.append(nextPageLi).append(lastPageLi);
   $(node).append(ul);
 }
+
+function save(extra,node){
+	$.ajax({
+		url : baseUrl + extra,
+		method : 'POST',
+		async : false,
+		data : $(node).serialize(),
+		success : function(result) {
+			if(result.code == 200){
+				alert(result.msg);
+			}
+		}
+	})
+}
