@@ -182,9 +182,24 @@
   <insert id="insertArticleAndTags">
   	insert into article_label(article_id,label_id)
   	values
-  	<foreach collection="list" separator="," item="item">
+  	<foreach collection="tags" separator="," item="item">
   		(#{articleId},#{item})
   	</foreach>
   </insert>
+  
+  <select id="findLabelIds" parameterType="com.sjm.domain.ArticleLabelExample" resultType="java.lang.Integer">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    label_id
+    from article_label
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   
 </mapper>

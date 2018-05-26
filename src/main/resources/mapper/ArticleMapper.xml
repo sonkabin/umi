@@ -82,7 +82,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from article
+    from article a
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,7 +96,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from article
+    from article a
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -117,7 +117,7 @@
     where article_id = #{articleId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjm.domain.ArticleExample">
-    delete from article
+    delete from article a
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -166,13 +166,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.sjm.domain.ArticleExample" resultType="java.lang.Long">
-    select count(*) from article
+    select count(*) from article a
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update article
+    update article a
     <set>
       <if test="record.articleId != null">
         article_id = #{record.articleId,jdbcType=INTEGER},
@@ -195,7 +195,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update article
+    update article a
     set article_id = #{record.articleId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -206,7 +206,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update article
+    update article a
     set article_id = #{record.articleId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -248,4 +248,33 @@
       user_id = #{userId,jdbcType=INTEGER}
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
+  
+  <resultMap id="ResultMapWithUser" type="com.sjm.domain.Article">
+    <id column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association property="user" javaType="com.sjm.domain.User">
+    	<result column="username" property="username"/>
+    </association>
+  </resultMap>
+  <select id="selectByExampleWithUser" parameterType="com.sjm.domain.ArticleExample" resultMap="ResultMapWithUser">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    article_id , title , a.create_time
+    ,username
+    from article a
+    left outer join user u
+    on a.user_id = u.user_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+  
 </mapper>

@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 博客设置只能查看和修改，不能新增和删除
+ * @author sonkabin
+ *
+ */
 @RestController
 public class SettingController {
 	

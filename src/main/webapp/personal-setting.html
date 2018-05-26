@@ -104,16 +104,26 @@
 	<script src="js/holder.js"></script>
 	<script src="js/plugin/myplugin.js"></script>
 	<script type="text/javascript">
+	
 		$('#update-btn').click(function(){
+			//校验两个密码是否相等
+			var pwd = $('#input-pwd').val();
+			var confirmPwd = $('#confirm-pwd').val();
+			if(pwd != confirmPwd){
+				alert('两次输入的密码不同')
+				return;
+			}
 			$.ajax({
-				url : baseUrl + '/update',
+				url : baseUrl + '/user',
 				method : 'PUT',
 				data : {
-					oldPwd : $('#old-pwd'),
-					newPwd : $('#input-pwd')
+					oldPwd : $('#old-pwd').val(),
+					newPwd : $('#input-pwd').val()
 				},
 				success : function(result){
-					
+					if(result.code == 200){
+						alert(result.extend.info);
+					}
 				}
 			})	
 		})

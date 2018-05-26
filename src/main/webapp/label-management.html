@@ -2,166 +2,275 @@
 <html lang="zh-CN">
 
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="http://v3.bootcss.com/favicon.ico">
 
-  <title>umi</title>
+<title>umi</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <!-- Custom styles for this template -->
-  <link href="css/plugin/dashboard.css" rel="stylesheet">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/plugin/dashboard.css" rel="stylesheet">
+<link href="css/plugin/style.css" rel="stylesheet">
 
 
 </head>
 
 <body>
 
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="./home.html">umi后台管理系统</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">设置</a></li>
-          <li><a href="#">注销</a></li>
-        </ul>
-        <form class="navbar-form navbar-right">
-          <input class="form-control" placeholder="Search..." type="text">
-        </form>
-      </div>
-    </div>
-  </nav>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="./home.html">umi后台管理系统</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">设置</a></li>
+					<li><a href="#">注销</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input class="form-control" placeholder="Search..." type="text">
+				</form>
+			</div>
+		</div>
+	</nav>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar">
-        <ul class="nav nav-sidebar">
-          <li><a href="./home.html">首页 <span class="sr-only">(current)</span></a></li>
-          <li><a href="./user-management.html">用户管理</a></li>
-          <li><a href="./article-management.html">文章管理</a></li>
-          <li class="active"><a href="#">标签管理</a></li>
-          <li><a href="./comment-management.html">评论管理</a></li>
-          <li><a href="./message-management.html">留言管理</a></li>
-        </ul>
-        <ul class="nav nav-sidebar">
-          <li><a href="./blog-setting.html">博客设置</a></li>
-          <li><a href="./personal-setting.html">个人设置</a></li>
-        </ul>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="./home.html">首页 <span class="sr-only">(current)</span></a></li>
+					<li><a href="./user-management.html">用户管理</a></li>
+					<li><a href="./article-management.html">文章管理</a></li>
+					<li class="active"><a href="#">标签管理</a></li>
+					<li><a href="./comment-management.html">评论管理</a></li>
+					<li><a href="./message-management.html">留言管理</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="./blog-setting.html">博客设置</a></li>
+					<li><a href="./personal-setting.html">个人设置</a></li>
+				</ul>
 
-      </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">标签管理</h1>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">标签管理</h1>
+				<button type="button" name="button" class="btn btn-info right"
+						data-toggle="modal" data-target="#add-modal">新增</button>
+				<br><br>
+				<div class="table-responsive">
+					<table class="table table-hover table-bordered" id="label-table">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>标签名</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div>
 
-        <form class="form-inline" id="search-form">
-          <div class="form-group">
-            <label for="inputUsername">用户名</label>
-            <input type="text" class="form-control" id="inputUsername" name="username">
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">邮箱</label>
-            <input type="email" class="form-control" id="inputEmail" name="email">
-          </div>
-          <button type="button" class="btn btn-default">查询</button>
-        </form>
+					<div id="page-info"></div>
+					<div class="col-md-3 col-md-offset-9">
+						<nav aria-label="Page navigation" id="page-nav">
+							<ul class="pagination">
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 新增模态框 -->
+	<div class="modal fade" id="add-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">新增标签</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="add-form">
+						<div class="form-group">
+							<label for="add-label" class="col-sm-2 control-label">标签名</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="add-label"
+									name="labelName">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save-btn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-        <br>
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户名</th>
-                <th>密码</th>
-                <th>邮箱</th>
-                <th>创建时间</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1,012</td>
-                <td>taciti</td>
-                <td>sociosqu</td>
-                <td>ad</td>
-                <td>litora</td>
-              </tr>
-              <tr>
-                <td>1,013</td>
-                <td>torquent</td>
-                <td>per</td>
-                <td>conubia</td>
-                <td>nostra</td>
-              </tr>
-              <tr>
-                <td>1,014</td>
-                <td>per</td>
-                <td>inceptos</td>
-                <td>himenaeos</td>
-                <td>Curabitur</td>
-              </tr>
-              <tr>
-                <td>1,015</td>
-                <td>sodales</td>
-                <td>ligula</td>
-                <td>in</td>
-                <td>libero</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
+	<!-- 修改模态框 -->
+	<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">修改标签</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="edit-form">
+						<div class="form-group">
+							<label for="edit-label" class="col-sm-2 control-label">标签名</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="edit-label"
+									name="labelName">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="update-btn">更新</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-          <div id="page-info">
-            总共100条记录,共10页,当前第1页
-          </div>
-          <div class="col-md-3 col-md-offset-9">
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
-                <li><a href="#">首页</a></li>
-                <li>
-                  <a href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-                </li>
-                <li><a href="#">末页</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript
+	<!-- Bootstrap core JavaScript
     ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.js"></script>
-  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-  <script src="js/holder.js"></script>
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+	<script src="js/holder.js"></script>
+	<script src="js/plugin/myplugin.js"></script>
+	<script type="text/javascript">
+		var totalRecord, currentPage;
+		$(function() {
+			to_page(1);
+		})
+
+		function to_page(pn) {
+			$.ajax({
+				url : baseUrl + '/labels',
+				method : 'GET',
+				data : {
+					'pn' : pn
+				},
+				success : function(result) {
+					if (result.code == 200) {
+						alert('出现错误')
+						return;
+					}
+					build_table(result.extend.pageInfo.list);
+					var record = build_page_info('#page-info',
+							result.extend.pageInfo);
+					totalRecord = record.totalRecord;
+					currentPage = record.currentPage;
+					build_nav('#page-nav', result.extend.pageInfo);
+				}
+			})
+		}
+
+		function build_table(list) {
+			$('#label-table tbody').empty();
+			$.each(list, function(index, item) {
+				var idTd = $('<td scope="row"></td>').append(item.labelId);
+				var labelNameTd = $('<td></td>').append(item.labelName);
+				var editBtn = $('<button></button>').addClass(
+						'btn btn-info btn-xs edit-btn').append('修改').attr(
+						'edit-id', item.labelId);
+				var delBtn = $('<button></button>').addClass(
+						'btn btn-danger btn-xs del-btn').append('删除').attr(
+						'del-id', item.labelId);
+				var btnTd = $('<td></td>').append(editBtn).append(' ').append(
+						delBtn);
+				$('<tr></tr>').append(idTd).append(labelNameTd).append(btnTd)
+						.appendTo('#label-table tbody');
+			})
+		}
+		
+		$('#save-btn').click(function() {
+			save('/label', '#add-form');
+			$('#add-modal').modal('hide');
+			to_page(totalRecord);
+		})
+
+		$('#add-modal').on('hidden.bs.modal', function(e) {
+			$('#add-form')[0].reset();
+		})
+
+		$(document).on("click", ".edit-btn", function() {
+			$.ajax({
+				url : baseUrl + '/label/' + $(this).attr('edit-id'),
+				method : 'GET',
+				success : function(result) {
+					$('#edit-label').val(result.extend.label.labelName);
+				}
+			})
+			$('#edit-modal').modal({
+				backdrop : 'static'
+			})
+			//为更新按钮绑定id
+			$('#update-btn').attr('edit-id', $(this).attr('edit-id'));
+		})
+
+		$('#update-btn').click(function() {
+			$.ajax({
+				url : baseUrl + '/label/' + $(this).attr('edit-id'),
+				method : 'PUT',
+				data : $('#edit-form').serialize(),
+				async : false,
+				success : function(result) {
+					if (result.code == 200) {
+						alert(result.msg);
+					}
+				}
+			})
+			$('#edit-modal').modal('hide');
+			to_page(currentPage);
+		})
+		
+		$(document).on('click', '.del-btn', function() {
+			var label = $(this).parents('tr').find('td:eq(1)').text();
+			var id = $(this).attr('del-id');
+			if (confirm('确定要删除标签[' + label + ']吗?')) {
+				$.ajax({
+					url : baseUrl + '/label/' + id,
+					method : 'DELETE',
+					async : false,
+					success : function(result) {
+						if (result.code == 200) {
+							alert(result.msg)
+						}
+					}
+				})
+				to_page(currentPage);
+			}
+		})
+	</script>
 
 
 </body>

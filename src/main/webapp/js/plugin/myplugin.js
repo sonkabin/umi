@@ -108,3 +108,18 @@ function save(extra,node){
 		}
 	})
 }
+function getTags(node,clazz){
+	$.ajax({
+		url : baseUrl + '/tags',
+		method : 'GET',
+		success : function(result){
+			$(node).empty();
+			var labels = result.extend.labels;
+			$.each(labels, function(index, item) {
+				var divTd = $('<div></div>').append($('<input type="checkbox">').addClass(clazz).text(item.labelId))
+					.append($('<span class="label label-info"></span>').append(item.labelName));
+				$(node).append(divTd);
+			})
+		}
+	})
+}
