@@ -14,6 +14,8 @@ public class Comment {
     private Integer articleId;
 
     private String content;
+    
+    private Article article;
 
     public Integer getCommentId() {
         return commentId;
@@ -62,4 +64,14 @@ public class Comment {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public Article getArticle() {
+		return article;
+	}
+
+	public void setArticle(Article article) {
+		this.article = article;
+	}
+    
+    
 }

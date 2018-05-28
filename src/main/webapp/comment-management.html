@@ -68,19 +68,23 @@
 
         <form class="form-inline" id="search-form">
           <div class="form-group">
-            <label for="inputUsername">用户名</label>
-            <input type="text" class="form-control" id="inputUsername" name="username">
+            <label for="inputTitle">文章标题</label>
+            <input type="text" class="form-control" id="inputTitle" name="title">
           </div>
           <div class="form-group">
-            <label for="inputEmail">邮箱</label>
-            <input type="email" class="form-control" id="inputEmail" name="email">
+            <label for="inputStartTime">开始时间</label>
+            <input type="date" class="form-control" id="inputStartTime" name="startTime">
           </div>
-          <button type="button" class="btn btn-default">查询</button>
+           <div class="form-group">
+            <label for="inputEndTime">结束时间</label>
+            <input type="date" class="form-control" id="inputEndTime" name="endTime">
+          </div>
+          <button type="button" class="btn btn-default" id="search-btn">查询</button>
         </form>
 
         <br>
         <div class="table-responsive">
-          <table class="table table-hover table-bordered">
+          <table class="table table-hover table-bordered" id="comment-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -120,7 +124,74 @@
   <script src="js/holder.js"></script>
   <script src="js/plugin/myplugin.js"></script>
   <script type="text/javascript">
-  	
+  var totalRecord, currentPage;
+	$(function() {
+		to_page(1);
+	})
+	
+	$('#search-btn').click(function(){
+		to_page(1);
+	})
+
+	function to_page(pn) {
+		$.ajax({
+			url : baseUrl + '/comments',
+			method : 'GET',
+			data : $.param({
+				'pn' : pn
+			}) + '&' + $('#search-form').serialize(),
+			success : function(result) {
+				if (result.code == 200) {
+					alert('出现错误')
+					return;
+				}
+				build_table(result.extend.pageInfo.list);
+				var record = build_page_info('#page-info',
+						result.extend.pageInfo);
+				totalRecord = record.totalRecord;
+				currentPage = record.currentPage;
+				build_nav('#page-nav', result.extend.pageInfo);
+			}
+		})
+	}
+	
+	function build_table(list) {
+		$('#comment-table tbody').empty();
+		$.each(list, function(index, item) {
+			var idTd = $('<td scope="row"></td>').append(item.commentId);
+			var nameTd = $('<td></td>').append(item.name);
+			var emailTd = $('<td></td>').append(item.email);
+			var titleTd = $('<td></td>').append(item.article.title);
+			var contentTd = $('<td></td>').append(item.content);
+			var createTimeTd = $('<td></td>').append(
+					getDateTime(item.createTime));
+			var delBtn = $('<button></button>').addClass(
+					'btn btn-danger btn-xs del-btn').append('删除').attr(
+					'del-id', item.commentId);
+			var btnTd = $('<td></td>').append(
+					delBtn);
+			$('<tr></tr>').append(idTd).append(nameTd).append(emailTd)
+					.append(titleTd).append(contentTd).append(createTimeTd).append(btnTd)
+					.appendTo('#comment-table tbody');
+		})
+	}
+	
+	$(document).on('click', '.del-btn', function() {
+		var commentId = $(this).attr('del-id');
+		if (confirm('确定要删除编号为[' + commentId + ']的评论吗?')) {
+			$.ajax({
+				url : baseUrl + '/comment/' + commentId,
+				method : 'DELETE',
+				async : false,
+				success : function(result) {
+					if (result.code == 200) {
+						alert(result.msg)
+					}
+				}
+			})
+			to_page(currentPage);
+		}
+	})
   </script>
 
 

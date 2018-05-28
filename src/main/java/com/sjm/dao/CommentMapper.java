@@ -1,9 +1,11 @@
 package com.sjm.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.sjm.domain.Comment;
 import com.sjm.domain.CommentExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CommentMapper {
     long countByExample(CommentExample example);
@@ -33,4 +35,7 @@ public interface CommentMapper {
     int updateByPrimaryKeyWithBLOBs(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    //new 
+	List<Comment> selectByExampleWithTitle(@Param("example")CommentExample example, @Param("title") String title);
 }
