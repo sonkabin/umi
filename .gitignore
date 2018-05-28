@@ -4,6 +4,5 @@ target
 .project
 .springBeans
 .classpath
-mbg.xml
 db.properties
 error*
