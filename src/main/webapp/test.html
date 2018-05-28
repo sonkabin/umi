@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+	<div id="thumbnails" class="thumb">
+<span id="1"><a id="a">互换</a></span>
+<br>
+<span id="2">bbb</span>
+<br>
+<span id="3">ccc</span>
+<br>
+
+<div id="t">
+<div id="div1">
+	<span class="label label-info"><a class="change">fuck</a></span>
+</div>
+<div id="div2">
+	<span class="label label-info"><a class="change">you</a></span>
+</div>
+</div>
+
+
+</div>
+
+	<script src="js/jquery.js"></script>
+	<script type="text/javascript">
+	
+	//移动标签
+	$('.change').click(function(){
+		//将被删除的节点
+		var span = $(this).parent();
+		//父节点div的id
+		var pId = $(this).parent().parent().attr("id")
+		var node = $('<span class="label label-info"></span>').append($(this));
+		if(pId == 'div1'){
+			$('#div2').append(node)
+		}else if(pId == 'div2'){
+			$('#div1').append(node);
+		}
+		$(span).remove();
+	})
+	
+	
+	$('#a').click(function(){
+		swap(1,2);
+	})
+	function swap(id1, id2) {
+	    var node1 = $("#thumbnails span[id='" + id1 + "']"),
+	        node2 = $("#thumbnails span[id='" + id2 + "']"),
+	        tempNode = $('<span />').insertBefore(node1); // 临时站位
+	 
+	    // 把node1移到node2前面
+	    node1.insertBefore(node2);
+	    // 把node2移到tempNode前面
+	    node2.insertBefore(tempNode);
+	    // 移除临时站位
+	    tempNode.remove();
+	     
+	}
+	</script>
+
+	
+</body>
+</html>

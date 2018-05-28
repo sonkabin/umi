@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.sjm.domain.ArticleLabel">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="article_id" jdbcType="INTEGER" property="articleId" />
-    <result column="label_id" jdbcType="INTEGER" property="labelId" />
+    <result column="labels" jdbcType="VARCHAR" property="labels" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, article_id, label_id
+    id, article_id, labels
   </sql>
   <select id="selectByExample" parameterType="com.sjm.domain.ArticleLabelExample" resultMap="BaseResultMap">
     select
@@ -98,9 +98,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sjm.domain.ArticleLabel">
-    insert into article_label (id, article_id, label_id
+    insert into article_label (id, article_id, labels
       )
-    values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{labels,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sjm.domain.ArticleLabel">
@@ -112,8 +112,8 @@
       <if test="articleId != null">
         article_id,
       </if>
-      <if test="labelId != null">
-        label_id,
+      <if test="labels != null">
+        labels,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -123,8 +123,8 @@
       <if test="articleId != null">
         #{articleId,jdbcType=INTEGER},
       </if>
-      <if test="labelId != null">
-        #{labelId,jdbcType=INTEGER},
+      <if test="labels != null">
+        #{labels,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -143,8 +143,8 @@
       <if test="record.articleId != null">
         article_id = #{record.articleId,jdbcType=INTEGER},
       </if>
-      <if test="record.labelId != null">
-        label_id = #{record.labelId,jdbcType=INTEGER},
+      <if test="record.labels != null">
+        labels = #{record.labels,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -155,7 +155,7 @@
     update article_label
     set id = #{record.id,jdbcType=INTEGER},
       article_id = #{record.articleId,jdbcType=INTEGER},
-      label_id = #{record.labelId,jdbcType=INTEGER}
+      labels = #{record.labels,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -166,8 +166,8 @@
       <if test="articleId != null">
         article_id = #{articleId,jdbcType=INTEGER},
       </if>
-      <if test="labelId != null">
-        label_id = #{labelId,jdbcType=INTEGER},
+      <if test="labels != null">
+        labels = #{labels,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -175,31 +175,7 @@
   <update id="updateByPrimaryKey" parameterType="com.sjm.domain.ArticleLabel">
     update article_label
     set article_id = #{articleId,jdbcType=INTEGER},
-      label_id = #{labelId,jdbcType=INTEGER}
+      labels = #{labels,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <insert id="insertArticleAndTags">
-  	insert into article_label(article_id,label_id)
-  	values
-  	<foreach collection="tags" separator="," item="item">
-  		(#{articleId},#{item})
-  	</foreach>
-  </insert>
-  
-  <select id="findLabelIds" parameterType="com.sjm.domain.ArticleLabelExample" resultType="java.lang.Integer">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    label_id
-    from article_label
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  
 </mapper>

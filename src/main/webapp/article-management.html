@@ -144,7 +144,12 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">个人分类</label>
-							<div class="col-sm-10 tags">
+							<div class="col-sm-10 add-tags" id="div1">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">选择分类</label>
+							<div class="col-sm-10 remove-tags" id="div2">
 							</div>
 						</div>
 					</form>
@@ -260,20 +265,21 @@
 		}
 		
 		$('#add-btn').click(function(){
-			getTags('.tags','check-item');
+			getTags('.remove-tags','check-item');
 			$('#add-modal').modal();
 		})
 		
 		$('#save-btn').click(function(){
-			var tagIds = "";
-			$.each($(".check-item:checked"),function(){
-				tagIds += $(this).text()+",";
+			var tags = "";
+			var list = $('#div1').find("a");
+			$.each(list,function(){
+				tags += $(this).text()+",";
 			});
 			$.ajax({
 				url : baseUrl + '/article',
 				method : 'POST',
 				data : $.param({
-					'tagIds' : tagIds
+					'tags' : tags
 				}) + '&' + $('#add-form').serialize(),
 				success : function(result){
 					if(result.code == 200){
@@ -295,23 +301,33 @@
 					getTags('.tags','check-tag');
 					//将原有的标签选中
 					var ids = result.extend.ids;
-					//for(var i = 0 ; i < ids.length ; i++){
-						$.each($('.check-tag'),function(){
-							//if($(this).text() == ids[i]){
-								$(this).prop("checked",true);
-							//}
-						});
-					//}
 					var article = result.extend.article;
 					$('#edit-title').val(article.title);
 					$('#edit-content').text(article.content);
 				}
 			})
+			
 			$('#edit-modal').modal({
 				backdrop : 'static'
 			})
 			//为更新按钮绑定id
 			$('#update-btn').attr('edit-id', $(this).attr('edit-id'));
+		})
+		
+		$('#update-btn').click(function() {
+			$.ajax({
+				url : baseUrl + '/article/' + $(this).attr('edit-id'),
+				method : 'PUT',
+				data : $('#edit-form').serialize(),
+				async : false,
+				success : function(result) {
+					if (result.code == 200) {
+						alert(result.msg);
+					}
+				}
+			})
+			$('#edit-modal').modal('hide');
+			to_page(currentPage);
 		})
 		
 		$(document).on('click', '.del-btn', function() {
@@ -331,6 +347,21 @@
 				to_page(currentPage);
 			}
 		})
+		
+		$(document).on('click', '.change', function() {
+			//将被删除的节点
+			var span = $(this).parent();
+			//父节点div的id
+			var pId = $(this).parent().parent().attr("id")
+			var node = $('<span class="label label-info"></span>').append($(this));
+			if(pId == 'div1'){
+				$('#div2').append(node).append(' ');
+			}else if(pId == 'div2'){
+				$('#div1').append(node).append(' ');
+			}
+			$(span).remove();
+		})
+		
 	</script>
 
 

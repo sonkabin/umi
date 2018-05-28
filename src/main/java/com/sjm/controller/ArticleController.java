@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sjm.domain.Article;
+import com.sjm.domain.ArticleLabel;
 import com.sjm.dto.ArticleDTO;
 import com.sjm.service.ArticleLabelService;
 import com.sjm.service.ArticleService;
@@ -30,10 +31,10 @@ public class ArticleController {
     private ArticleLabelService articleLabelService;
 
     @RequestMapping(value = "/article" , method = RequestMethod.POST)
-    public Message saveArticle(@RequestParam("tagIds")String tagIds,Article article,HttpSession session){
+    public Message saveArticle(@RequestParam("tags")String tags,Article article,HttpSession session){
     	int userId = (int)session.getAttribute("userId");
     	int articleId = articleService.saveArticle(article,userId);
-    	articleLabelService.saveArticleLabel(articleId,tagIds);
+    	articleLabelService.saveArticleLabel(articleId,tags);
         return Message.success();
     }
 
@@ -48,8 +49,8 @@ public class ArticleController {
     @RequestMapping(value = "/article/{id}" , method = RequestMethod.GET)
     public Message getArticle(@PathVariable("id")Integer id){
     	Article article = articleService.findArticle(id);
-    	List<Integer> ids = articleLabelService.findLabelIds(id);
-        return Message.success().add("article", article).add("ids", ids);
+    	List<ArticleLabel> tags = articleLabelService.findLabels(id);
+        return Message.success().add("article", article).add("tags", tags);
     }
 
     @RequestMapping(value = "/article/{articleId}" , method = RequestMethod.PUT)

@@ -116,10 +116,11 @@ function getTags(node,clazz){
 			$(node).empty();
 			var labels = result.extend.labels;
 			$.each(labels, function(index, item) {
-				var divTd = $('<div></div>').append($('<input type="checkbox">').addClass(clazz).text(item.labelId))
-					.append($('<span class="label label-info"></span>').append(item.labelName));
-				$(node).append(divTd);
+				var a = $('<a class="change"></a>').text(item.labelName);
+				var span = $('<span class="label label-info"></span>').append(a);
+				$(node).append(span).append(' ');
 			})
 		}
 	})
 }
+

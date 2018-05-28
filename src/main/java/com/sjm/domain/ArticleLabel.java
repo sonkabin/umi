@@ -5,7 +5,7 @@ public class ArticleLabel {
 
     private Integer articleId;
 
-    private Integer labelId;
+    private String labels;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class ArticleLabel {
         this.articleId = articleId;
     }
 
-    public Integer getLabelId() {
-        return labelId;
+    public String getLabels() {
+        return labels;
     }
 
-    public void setLabelId(Integer labelId) {
-        this.labelId = labelId;
+    public void setLabels(String labels) {
+        this.labels = labels == null ? null : labels.trim();
     }
 }
