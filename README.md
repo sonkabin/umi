@@ -1,9 +1,9 @@
-#博客后台管理系统
-##基于SSM框架实现，页面使用Bootstarp+jQuery实现，数据库使用MySQL
+# 博客后台管理系统
+## 基于SSM框架实现，页面使用Bootstarp+jQuery实现，数据库使用MySQL
 
-###umi.sql
+### umi.sql
 数据库文件
-###需要在resources下新建db.properties
+### 需要在resources下新建db.properties
 内容:
 
     jdbc.user=root
