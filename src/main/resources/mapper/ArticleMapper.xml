@@ -128,7 +128,7 @@
     values (#{articleId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{userId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sjm.domain.Article">
+  <insert id="insertSelective" parameterType="com.sjm.domain.Article" useGeneratedKeys="true" keyProperty="articleId">
     insert into article
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="articleId != null">

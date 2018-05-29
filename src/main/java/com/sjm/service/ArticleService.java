@@ -7,7 +7,7 @@ import com.sjm.dto.ArticleDTO;
 
 public interface ArticleService {
 
-	int saveArticle(Article article, int userId);
+	Integer saveArticle(Article article, int userId);
 
 	List<Article> getArticles(ArticleDTO dto);
 

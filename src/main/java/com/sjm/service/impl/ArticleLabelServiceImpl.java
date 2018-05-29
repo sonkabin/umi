@@ -17,7 +17,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
 	private ArticleLabelMapper articleLabelMapper;
 
 	@Override
-	public void saveArticleLabel(int articleId, String tags) {
+	public void saveArticleLabel(Integer articleId, String tags) {
 		ArticleLabel record = new ArticleLabel();
 		record.setArticleId(articleId);
 		record.setLabels(tags);
@@ -25,10 +25,20 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
 	}
 
 	@Override
-	public List<ArticleLabel> findLabels(Integer id) {
+	public ArticleLabel findLabels(Integer id) {
 		ArticleLabelExample example = new ArticleLabelExample();
 		example.createCriteria().andArticleIdEqualTo(id);
-		return articleLabelMapper.selectByExample(example);
+		List<ArticleLabel> list = articleLabelMapper.selectByExample(example);
+		//一篇文章对应的标签只有一行，所以取出第一条数据即可
+		return list.get(0);
+	}
+
+	@Override
+	public void updateLabels(Integer id, String tags) {
+		ArticleLabel record = new ArticleLabel();
+		record.setId(id);
+		record.setLabels(tags);
+		articleLabelMapper.updateByPrimaryKeySelective(record);
 	}
 
 }

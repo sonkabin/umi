@@ -33,7 +33,7 @@ public class ArticleController {
     @RequestMapping(value = "/article" , method = RequestMethod.POST)
     public Message saveArticle(@RequestParam("tags")String tags,Article article,HttpSession session){
     	int userId = (int)session.getAttribute("userId");
-    	int articleId = articleService.saveArticle(article,userId);
+    	Integer articleId = articleService.saveArticle(article,userId);
     	articleLabelService.saveArticleLabel(articleId,tags);
         return Message.success();
     }
@@ -49,13 +49,14 @@ public class ArticleController {
     @RequestMapping(value = "/article/{id}" , method = RequestMethod.GET)
     public Message getArticle(@PathVariable("id")Integer id){
     	Article article = articleService.findArticle(id);
-    	List<ArticleLabel> tags = articleLabelService.findLabels(id);
+    	ArticleLabel tags = articleLabelService.findLabels(id);
         return Message.success().add("article", article).add("tags", tags);
     }
 
     @RequestMapping(value = "/article/{articleId}" , method = RequestMethod.PUT)
-    public Message updateArticle(Article article){
+    public Message updateArticle(Article article,@RequestParam("tags")String tags,@RequestParam("id")Integer id){
     	articleService.updateArticle(article);
+    	articleLabelService.updateLabels(id,tags);
         return Message.success();
     }
 

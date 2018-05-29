@@ -144,12 +144,12 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">个人分类</label>
-							<div class="col-sm-10 add-tags" id="div1">
+							<div class="col-sm-10 add-person-tags" id="div1">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">选择分类</label>
-							<div class="col-sm-10 remove-tags" id="div2">
+							<label class="col-sm-2 control-label">标签</label>
+							<div class="col-sm-10 remove-person-tags" id="div2">
 							</div>
 						</div>
 					</form>
@@ -188,9 +188,15 @@
 								<textarea rows="8" name="content" id="edit-content" class="form-control"></textarea>
 							</div>
 						</div>
+						<input type="hidden" id="edit-id">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">个人分类</label>
-							<div class="col-sm-10 tags" id="edit-tags">
+							<div class="col-sm-10 edit-person-tags" id="div3">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">标签</label>
+							<div class="col-sm-10 edit-remove-tags" id="div4">
 							</div>
 						</div>
 					</form>
@@ -265,7 +271,7 @@
 		}
 		
 		$('#add-btn').click(function(){
-			getTags('.remove-tags','check-item');
+			getTags('.remove-person-tags','check-item');
 			$('#add-modal').modal();
 		})
 		
@@ -278,6 +284,7 @@
 			$.ajax({
 				url : baseUrl + '/article',
 				method : 'POST',
+				async : false,
 				data : $.param({
 					'tags' : tags
 				}) + '&' + $('#add-form').serialize(),
@@ -290,20 +297,53 @@
 			$('#add-modal').modal('hide');
 		})
 		$('#add-modal').on('hidden.bs.modal', function(e) {
+			$('#div1').empty();
 			$('#add-form')[0].reset();
 		})
 		
 		$(document).on("click", ".edit-btn", function() {
+			var data;
+			var labels;
 			$.ajax({
 				url : baseUrl + '/article/' + $(this).attr('edit-id'),
 				method : 'GET',
+				async : false,
 				success : function(result) {
-					getTags('.tags','check-tag');
-					//将原有的标签选中
-					var ids = result.extend.ids;
-					var article = result.extend.article;
-					$('#edit-title').val(article.title);
-					$('#edit-content').text(article.content);
+					data = result;
+				}
+			})
+			$.ajax({
+				url : baseUrl + '/tags',
+				method : 'GET',
+				async : false,
+				success : function(result) {
+					labels = result.extend.labels;
+				}
+			})
+			var temp = data.extend.tags.labels;
+			var tags = temp.substring(0,temp.length-1).split(',');
+			var article = data.extend.article;
+			//文章信息回显
+			$('#edit-title').val(article.title);
+			$('#edit-content').text(article.content);
+			$('#edit-id').val(data.extend.tags.id);
+			
+			//已选择的标签回显
+			$('.edit-person-tags').empty();
+			$.each(tags, function(index, item) {
+				var a = $('<a class="change"></a>').text(item);
+				var span = $('<span class="label label-info"></span>').append(a);
+				$('.edit-person-tags').append(span).append(' ');
+			})
+			
+			//没有选择的标签回显
+			$('.edit-remove-tags').empty();
+			$.each(labels, function(index, item) {
+				var labelName = item.labelName;
+				if($.inArray(labelName,tags) == -1){
+					var a = $('<a class="change"></a>').text(labelName);
+					var span = $('<span class="label label-info"></span>').append(a);
+					$('.edit-remove-tags').append(span).append(' ');
 				}
 			})
 			
@@ -315,10 +355,19 @@
 		})
 		
 		$('#update-btn').click(function() {
+			var tags = "";
+			var list = $('#div3').find("a");
+			$.each(list,function(){
+				tags += $(this).text()+",";
+			});
+			var id = $('#edit-id').val();
 			$.ajax({
 				url : baseUrl + '/article/' + $(this).attr('edit-id'),
 				method : 'PUT',
-				data : $('#edit-form').serialize(),
+				data : $.param({
+					'tags' : tags,
+					'id' : id
+				}) + '&' + $('#edit-form').serialize(),
 				async : false,
 				success : function(result) {
 					if (result.code == 200) {
@@ -358,6 +407,10 @@
 				$('#div2').append(node).append(' ');
 			}else if(pId == 'div2'){
 				$('#div1').append(node).append(' ');
+			}else if(pId == 'div3'){
+				$('#div4').append(node).append(' ');
+			}else{
+				$('#div3').append(node).append(' ');
 			}
 			$(span).remove();
 		})

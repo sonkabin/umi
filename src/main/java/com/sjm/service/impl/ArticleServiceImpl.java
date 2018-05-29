@@ -20,10 +20,11 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleMapper articleMapper;
 
 	@Override
-	public int saveArticle(Article article,int userId) {
+	public Integer saveArticle(Article article,int userId) {
 		article.setCreateTime(new Date());
 		article.setUserId(userId);
-		int articleId = articleMapper.insertSelective(article);
+		articleMapper.insertSelective(article);
+		Integer articleId = article.getArticleId();
 		return articleId;
 	}
 
