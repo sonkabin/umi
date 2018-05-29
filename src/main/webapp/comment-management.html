@@ -80,6 +80,7 @@
             <input type="date" class="form-control" id="inputEndTime" name="endTime">
           </div>
           <button type="button" class="btn btn-default" id="search-btn">查询</button>
+          <button type="button" class="btn btn-primary" id="reset-btn">重置</button>
         </form>
 
         <br>
@@ -191,6 +192,11 @@
 			})
 			to_page(currentPage);
 		}
+	})
+	
+	$('#reset-btn').click(function(){
+		$('#search-form')[0].reset();
+		to_page(1);
 	})
   </script>
 

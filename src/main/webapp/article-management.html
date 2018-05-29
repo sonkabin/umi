@@ -81,6 +81,7 @@
 							class="form-control" id="endTime" name="endTime">
 					</div>
 					<button type="button" class="btn btn-default" id="search-btn">查询</button>
+					<button type="button" class="btn btn-primary" id="reset-btn">重置</button>
 					<button type="button" name="button" class="btn btn-info right"
 						id="add-btn">新增</button>
 				</form>
@@ -139,7 +140,7 @@
 						<div class="form-group">
 							<label for="add-content" class="col-sm-2 control-label">内容</label>
 							<div class="col-sm-10">
-								<textarea rows="8" name="content" id="add-content" class="form-control"></textarea>
+								<textarea rows="15" name="content" id="add-content" class="form-control"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -185,7 +186,7 @@
 						<div class="form-group">
 							<label for="edit-content" class="col-sm-2 control-label">内容</label>
 							<div class="col-sm-10">
-								<textarea rows="8" name="content" id="edit-content" class="form-control"></textarea>
+								<textarea rows="15" name="content" id="edit-content" class="form-control"></textarea>
 							</div>
 						</div>
 						<input type="hidden" id="edit-id">
@@ -299,6 +300,11 @@
 		$('#add-modal').on('hidden.bs.modal', function(e) {
 			$('#div1').empty();
 			$('#add-form')[0].reset();
+		})
+		
+		$('#reset-btn').click(function(){
+			$('#search-form')[0].reset();
+			to_page(1);
 		})
 		
 		$(document).on("click", ".edit-btn", function() {

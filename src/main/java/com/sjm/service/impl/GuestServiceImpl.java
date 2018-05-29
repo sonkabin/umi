@@ -21,7 +21,12 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public List<GuestBook> getGuestBooks(GuestBookDTO dto) {
 		GuestBookExample example = new GuestBookExample();
-		Criteria criteria = example.createCriteria().andNameLike("%" + dto.getName() + "%");
+		Criteria criteria = example.createCriteria();
+		if(dto.getName() != null) {
+			criteria.andNameLike("%" + dto.getName() + "%");
+		}else {
+			example.setOrderByClause("create_time desc");
+		}
 		if(dto.getStartTime() != null) {
 			criteria.andCreateTimeGreaterThanOrEqualTo(dto.getStartTime());
 		}

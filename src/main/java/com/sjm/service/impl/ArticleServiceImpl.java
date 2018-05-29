@@ -31,7 +31,13 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> getArticles(ArticleDTO dto) {
 		ArticleExample example = new ArticleExample();
-		Criteria criteria = example.createCriteria().andTitleLike("%" + dto.getTitle() + "%");
+		Criteria criteria = example.createCriteria();
+		if(dto.getTitle() != null) {
+			criteria.andTitleLike("%" + dto.getTitle() + "%");
+		}else {
+			//来自首页的请求
+			example.setOrderByClause("a.create_time desc");
+		}
 		if(dto.getStartTime() != null) {
 			criteria.andCreateTimeGreaterThanOrEqualTo(dto.getStartTime());
 		}

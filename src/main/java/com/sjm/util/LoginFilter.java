@@ -23,7 +23,8 @@ public class LoginFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		String uri = req.getRequestURI();
-		System.out.println(uri);
+		//debug用
+		//System.out.println(uri);
 		if(!uri.equals("/umi/index.html") && !uri.contains("css") && !uri.contains("js") && !uri.contains("img") && !uri.contains("fonts")) {
 			if(!uri.contains("/login")) {
 				if(req.getSession().getAttribute("userId") == null) {

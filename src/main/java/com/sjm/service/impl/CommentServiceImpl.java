@@ -27,12 +27,18 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> getComments(CommentDTO dto) {
 		CommentExample example = new CommentExample();
 		Criteria criteria = example.createCriteria();
+		String title = null;
+		if(dto.getTitle() != null) {
+			title = "%" + dto.getTitle() + "%";
+		}else {
+			example.setOrderByClause("c.create_time desc");
+		}
 		if(dto.getStartTime() != null) {
 			criteria.andCreateTimeGreaterThanOrEqualTo(dto.getStartTime());
 		}
 		if(dto.getEndTime() != null) {
 			criteria.andCreateTimeLessThanOrEqualTo(dto.getEndTime());
 		}
-		return commentMapper.selectByExampleWithTitle(example,"%" + dto.getTitle() + "%");
+		return commentMapper.selectByExampleWithTitle(example,title);
 	}
 }
